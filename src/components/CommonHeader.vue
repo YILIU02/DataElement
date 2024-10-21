@@ -3,18 +3,20 @@
         <div class="l-content">
           <el-dropdown >
                 <img src="../assets/img/avater.jpg" class="user" />
-                <template #dropdown>
-                    <el-dropdown-menu>
-                        <el-dropdown-item>个人中心</el-dropdown-item>
-                        <el-dropdown-item >退出</el-dropdown-item>
-                    </el-dropdown-menu>
-                </template>
             </el-dropdown>
-            <span>人体数据结构组</span>
+            <span>{{ conster.team_name }}</span>
         </div>
         <div class="r-content">
-        <span>首页</span>
-        <span>数据大厅</span>
+          <el-menu 
+    class="el-menu-demo"
+    mode="horizontal"
+    :ellipsis="false"
+    background-color="#0c3c64"
+    text-color="aliceblue">
+            <el-menu-item v-for="item in menuList" :index="item.path" :key="item.path" @click="handleMenu(item)">
+                <span>{{ item.label }}</span>
+            </el-menu-item>
+          </el-menu>
            
 
         </div>
@@ -23,6 +25,13 @@
 
 <script setup>
 
+import conster from "@/conster"
+import { useRouter } from "vue-router"
+const menuList=conster.menuList
+const router = useRouter()
+const handleMenu = (item) => {
+    router.push(item.path)
+}
 </script>
 
 <style lang="less" scoped>
@@ -53,7 +62,7 @@
 }
 .r-content{
   
-  width: 10%;
+  width: 20%;
   span{
     margin: 10px;
   }

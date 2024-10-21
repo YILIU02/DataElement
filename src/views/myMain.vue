@@ -5,8 +5,7 @@
             <el-header class="el-header">
                 <common-header/>
             </el-header>
-            <common-tab class="tab"/>
-            <common-int/>
+         <router-view></router-view>
          </el-container>
     </el-container>
     </div>
@@ -14,8 +13,6 @@
  
  <script setup>
 import CommonHeader from '../components/CommonHeader.vue';
-import CommonTab from '../components/CommonTab.vue';
-import CommonInt from '../components/CommonIntroduce.vue';
  </script>
  
  <style lang="less" scoped>
