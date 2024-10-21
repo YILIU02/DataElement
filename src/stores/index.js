@@ -34,12 +34,16 @@ export const useAllDataStore = defineStore('allData', () => {
         echart[index].value = !item
 
     }
-    
+    const find=ref(false)
+    const pathname=ref('')
     return {
         Columnar_show,
         lineChart_show,
         pieCharm_show,
         Gradient_show,
-        horColumnar_show, echart, types, change
+        horColumnar_show, echart, types,
+        find,
+        pathname,
+         change
     }
 })

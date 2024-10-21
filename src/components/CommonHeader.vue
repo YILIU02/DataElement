@@ -13,9 +13,21 @@
     :ellipsis="false"
     background-color="#0c3c64"
     text-color="aliceblue">
-            <el-menu-item v-for="item in menuList" :index="item.path" :key="item.path" @click="handleMenu(item)">
+            <el-menu-item v-for="item in notChildren" :index="item.path" :key="item.path" @click="handleMenu(item)">
                 <span>{{ item.label }}</span>
             </el-menu-item>
+            <el-sub-menu v-for="item in hasChildren" :index="item.path" :key="item.path">
+                <template #title>
+                    <component :is="item.icon" class="icons"></component>
+                    <span>{{ item.label }}</span>
+                </template>
+                <el-menu-item-group>
+                    <el-menu-item v-for="(subItem) in item.children" :index="subItem.path"
+                        @click="handleMenu(subItem)" :key="subItem.path">
+                        <span>{{ subItem.label }}</span>
+                    </el-menu-item>
+                </el-menu-item-group>
+            </el-sub-menu>
           </el-menu>
            
 
@@ -26,10 +38,20 @@
 <script setup>
 
 import conster from "@/conster"
+import { computed } from "vue"
 import { useRouter } from "vue-router"
-const menuList=conster.menuList
+import {useAllDataStore} from '@/stores'
+const store=useAllDataStore()
+const menuList=computed(() => conster.menuList)
+const notChildren = computed(() => menuList.value.filter(item => !item.children))
+const hasChildren = computed(() => menuList.value.filter(item => item.children))
 const router = useRouter()
 const handleMenu = (item) => {
+  if(item.name=='find'){
+    store.find=true
+  }else{store.find=false
+  }
+  store.pathname=item.name
     router.push(item.path)
 }
 </script>

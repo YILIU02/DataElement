@@ -1,6 +1,6 @@
 <template>
  <div> 
-  <button @click="cs()">测试</button>
+
     <div ref="monthlyIndicators" style="width: 600px; height: 35vh;"></div>
   </div>
  
@@ -21,17 +21,10 @@
 
 // 绘制柱状图
 
-  const cs=() => {
-   data.value=data.value.map((item) => {
-      item+=100;
-      return item
-    })
-  monthlyIndicatorsElement.setOption({series:{
-    data:data.value
-  }})
-    
-    // monthlyIndicatorsElement.option.series[0].data=data.value
-  }
+
+  // monthlyIndicatorsElement.setOption({series:{
+  //   data:data.value
+
 // 初始化ECharts实例并设置配置项（这里以折线图为例，但可灵活替换）
   onMounted(async () => {
     await nextTick(); // 确保DOM已经渲染完成

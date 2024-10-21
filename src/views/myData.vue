@@ -2,7 +2,7 @@
   <el-row :gutter="20">
     <el-col :span="11" style="margin-top: 20px;">
       <el-card class="left">
-        <div>
+        <div v-if="store.find">
           <form action="">
             <input id="area" type="text" list="arealist" style="padding: 0.5em;" placeholder="请输入您想查询的地区"
               v-model="FromData.area" @change="areaChange()" />
@@ -61,19 +61,25 @@ import lineChart from '@/pages/lineChart.vue'
 import pieCharm from '@/pages/pieCharm.vue'
 import Gradient from '@/pages/myGradient.vue'
 import horColumnar from '@/pages/horColumnar.vue'
-import { onMounted, reactive, ref } from 'vue';
+import { onMounted,onUpdated, reactive, ref } from 'vue';
 import { useAllDataStore } from '@/stores';
 import api from '@/utils/api/course'
 import { ElMessage } from 'element-plus';
+
 const store = useAllDataStore()
 const { change } = store
 const checkedTypes = ref(['柱状图', '折线图'])
 const result = ref('')
 onMounted(() => {
-  
   api.getReport().then((data) => {
     result.value = data.result.name
   });
+})
+onUpdated(() => {
+  api.getReport().then((data) => {
+    result.value = data.result.name
+  });
+  
 })
 const data = 1//测试数据
 const FromData = reactive({
