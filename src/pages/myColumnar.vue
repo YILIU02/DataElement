@@ -7,11 +7,10 @@
 </template>
   
   <script setup>
-  import { ref, defineProps,onMounted, onUnmounted, nextTick } from 'vue';
+  import { ref, onMounted, onUnmounted, nextTick } from 'vue';
   import * as echarts from 'echarts';
 //接受页面传参
-  const props=defineProps(['data'])
-  console.log(props.data);
+  // const props=defineProps(['data'])
   //设置数据可变
   const month=ref(['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'])
   const data=ref([220, 182, 191, 234, 290, 330, 310, 123, 442, 321, 234, 123])

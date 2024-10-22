@@ -34,6 +34,23 @@ export const useAllDataStore = defineStore('allData', () => {
         echart[index].value = !item
 
     }
+const markdownToHtml=(markdown) =>{
+        // 替换标题
+        markdown = markdown.replace(/^# (.*?)$/gm, '<h1>$1</h1>');
+        markdown = markdown.replace(/^## (.*?)$/gm, '<h2>$1</h2>');
+        markdown = markdown.replace(/^### (.*?)$/gm, '<h3>$1</h3>');
+        // 替换加粗文本
+        markdown = markdown.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        // 替换斜体文本
+        markdown = markdown.replace(/__(.*?)__/g, '<em>$1</em>');
+        // 替换列表
+        markdown = markdown.replace(/^\*(.*?)$/gm, '<li>$1</li>');
+        markdown = markdown.replace(/<li>(.*?)<\/li>/g, '<ul><li>$1</li></ul>');
+        // 替换换行
+        markdown = markdown.replace(/\n/g, '<br>');
+      
+        return markdown;
+      }
     const find=ref(false)
     const pathname=ref('')
     return {
@@ -44,6 +61,7 @@ export const useAllDataStore = defineStore('allData', () => {
         horColumnar_show, echart, types,
         find,
         pathname,
-         change
+         change,
+         markdownToHtml
     }
 })

@@ -10,7 +10,7 @@
             <h1>{{ conster.home_title }}</h1>
           </template>
             <div>
-              <p>{{ conster.home_info }}</p>
+              <p id="info"></p>
             </div>
         </el-card>
     </div>
@@ -18,7 +18,11 @@
   </template>
   
   <script setup>
+import { onMounted } from 'vue'
 import conster from '../conster'
+onMounted(() => {
+  document.getElementById('info').innerHTML=conster.home_info
+})
   </script>
   
   <style lang="less" scoped>

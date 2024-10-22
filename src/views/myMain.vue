@@ -17,10 +17,11 @@ import CommonHeader from '../components/CommonHeader.vue';
  
  <style lang="less" scoped>
  .common-layout,.lay-container{
-     height: 100vh;
+
 
     background-image: url('../assets/img/head-bg.jpg');
     background-size: cover;
+    height: 100%;
  }
 
 
