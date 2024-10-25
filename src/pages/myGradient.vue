@@ -1,5 +1,5 @@
 <template>
-    <div ref="businessTrends" style="width: 600px; height: 35vh;"></div>
+    <div ref="businessTrends" style="width: 35vw; height: 35vh;"></div>
 </template>
 
 <script setup>
@@ -48,7 +48,7 @@ onMounted(async () => {
         data: data.value, // 示例数据，模拟起伏更大
         smooth: true, // 折线平滑
         lineStyle: {
-          width: 2,
+          width: 1,
           color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
             { offset: 0, color: '#62c1fe' },
             { offset: 0.5, color: '#ad90f7' },
@@ -76,6 +76,7 @@ onMounted(async () => {
 )
 onUnmounted(() => {
     if ( businessTrendsElement!= null && businessTrendsElement.dispose) {
+      window.removeEventListener('resize', businessTrendsElement.resize)
         businessTrendsElement.dispose();
     }
   });
@@ -83,6 +84,6 @@ onUnmounted(() => {
 
 <style scoped>
 div{
-  margin-left: 4vw;
+  margin-left: 2vw;
 }
 </style>

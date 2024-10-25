@@ -1,5 +1,5 @@
 <template>
-    <div ref="projectSigningOverview" style="width: 600px; height: 35vh;"></div>
+    <div ref="projectSigningOverview" style="width: 35vw; height: 35vh;"></div>
 </template>
   
   <script setup>
@@ -139,6 +139,7 @@
   // 销毁ECharts实例
   onUnmounted(() => {
     if (projectSigningOverviewElement!= null && projectSigningOverviewElement.dispose) {
+      window.removeEventListener('resize', projectSigningOverviewElement.resize)
         projectSigningOverviewElement.dispose();
     }
   });

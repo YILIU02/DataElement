@@ -30,20 +30,19 @@ onMounted(() => {
     .user {
       text-align: center;
       align-items: center;
-      margin-bottom: 20px;
-      font-size: 30px;
+      font-size: 2vw;
       color: white;
   
       img {
-        width: 180px;
-        height: 150px;
+        width: 10vw;
+        height: 10vw;
         border-radius: 50%;
-        margin: 30px;
+        margin: 2vw;
       }
     }
     .int {
     width: 80%;
-    margin: 10px auto;
+  margin: auto;
     opacity: 0.8;
   
 }

@@ -1,5 +1,5 @@
 <template>
-    <div ref="chartDom" style="width: 600px; height: 35vh;"></div>
+    <div ref="chartDom" style="width: 35vw; height: 35vh;"></div>
   </template>
   
   <script setup>
@@ -41,6 +41,7 @@ const data=ref([620, 132, 701, 234, 890, 430, 120,300])
   // 销毁ECharts实例
   onUnmounted(() => {
     if (chartInstance != null && chartInstance.dispose) {
+      window.removeEventListener('resize', chartInstance.resize)
       chartInstance.dispose();
     }
   });
@@ -49,7 +50,7 @@ const data=ref([620, 132, 701, 234, 890, 430, 120,300])
   <style scoped>
   /* 添加一些CSS样式来美化图表容器（可选） */
 div{
-  margin-left: 4vw;
+  margin-left: 2vw;
 }
   </style>
   

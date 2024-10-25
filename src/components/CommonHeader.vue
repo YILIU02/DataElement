@@ -3,8 +3,13 @@
         <div class="l-content">
           <el-dropdown >
                 <img src="../assets/img/avater.jpg" class="user" />
+                <template #dropdown>
+                  <el-dropdown-menu>
+                <el-dropdown-item @click="handleLoginOut">退出登录</el-dropdown-item>
+                  </el-dropdown-menu>
+                  </template>
             </el-dropdown>
-            <span>{{ conster.team_name }}</span>
+            <span @click="router.push('/')" style="cursor: pointer;">{{ conster.team_name }}</span>
         </div>
         <div class="r-content">
           <el-menu 
@@ -53,6 +58,10 @@ const handleMenu = (item) => {
   }
   store.pathname=item.name
     router.push(item.path)
+}
+const handleLoginOut=() => {
+  localStorage.removeItem('token')
+  location.reload()
 }
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-    <div ref="salesRanking" style="width: 600px; height:35vh;"></div>
+    <div ref="salesRanking" style="width: 35vw; height:35vh;"></div>
   </template>
   
   <script setup>
@@ -107,8 +107,10 @@ const data=ref([620, 132, 701, 234, 890, 430, 120,300])
   // 销毁ECharts实例
   onUnmounted(() => {
     if (salesRankingElement!= null && salesRankingElement.dispose) {
+      window.removeEventListener('resize', salesRankingElement.resize)
         salesRankingElement.dispose();
     }
+    
   });
   </script>
   

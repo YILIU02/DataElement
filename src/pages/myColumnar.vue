@@ -1,7 +1,7 @@
 <template>
  <div> 
 
-    <div ref="monthlyIndicators" style="width: 600px; height: 35vh;"></div>
+    <div ref="monthlyIndicators" style="width: 35vw; height: 35vh;"></div>
   </div>
  
 </template>
@@ -102,6 +102,7 @@
   // 销毁ECharts实例
   onUnmounted(() => {
     if ( monthlyIndicatorsElement != null &&  monthlyIndicatorsElement.dispose) {
+      window.removeEventListener('resize', monthlyIndicatorsElement.resize)
         monthlyIndicatorsElement.dispose();
     }
   });

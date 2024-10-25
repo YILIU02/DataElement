@@ -6,6 +6,7 @@ export const useAllDataStore = defineStore('allData', () => {
     const pieCharm_show = ref(false)
     const Gradient_show = ref(false)
     const horColumnar_show = ref(false)
+    const checkedTypes = ref(['柱状图', '折线图'])
     const echart = [
         Columnar_show,
         lineChart_show,
@@ -32,7 +33,12 @@ export const useAllDataStore = defineStore('allData', () => {
     const change = (item, index) => {
         types.value[index].status = !item
         echart[index].value = !item
-
+        checkedTypes.value=[]
+        types.value.forEach((item) => {
+            if(item.status){
+                checkedTypes.value.push(item.label)
+            }
+        })
     }
 const markdownToHtml=(markdown) =>{
         // 替换标题
@@ -61,6 +67,7 @@ const markdownToHtml=(markdown) =>{
         horColumnar_show, echart, types,
         find,
         pathname,
+        checkedTypes,
          change,
          markdownToHtml
     }
