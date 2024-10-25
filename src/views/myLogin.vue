@@ -18,15 +18,19 @@
 import { ElMessage } from "element-plus";
 import { reactive } from "vue"
 import { useRouter } from "vue-router"
-
+// import api from '@/utils/api/course'
 const router = useRouter()
 const loginForm = reactive({
     username: '',
     password: '',
 });
 const handleLogin=() => {
+    // if(loginForm.username&&loginForm.password){
+    //     api.Login(loginForm).then((data) => {
+    //         localStorage.setItem('token',data.token)
+    //     })
     if(loginForm.username&&loginForm.password){
-        localStorage.setItem('token',1)
+    localStorage.setItem('token',1)
         router.push('/')
         ElMessage({
             message: '成功登录',

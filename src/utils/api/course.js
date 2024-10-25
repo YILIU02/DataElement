@@ -1,6 +1,12 @@
 import request from '@/utils/request'
 
 export default{
+  Login(){
+return request({
+  method:'post',
+  url:'/login'
+})
+  },
    getReport(){
 return request({
     method:'get',
