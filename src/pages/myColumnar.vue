@@ -7,14 +7,36 @@
 </template>
   
   <script setup>
-  import { ref, onMounted, onUnmounted, nextTick } from 'vue';
+  import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue';
   import * as echarts from 'echarts';
+import { useAllDataStore } from '@/stores';
 //接受页面传参
-  // const props=defineProps(['data'])
+ const store=useAllDataStore()
+ const result=ref(store.result)
   //设置数据可变
-  const month=ref(['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'])
+  const year=ref(['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'])
   const data=ref([220, 182, 191, 234, 290, 330, 310, 123, 442, 321, 234, 123])
- 
+
+  watch(() => store.result, (newValue) => {
+    if(store.result){
+    result.value=newValue
+    year.value=result.value.map((item) => {
+  return item.province||item.year
+})
+
+data.value=result.value.map((item) => {
+  let gdp=item.gdp.replace(/[^\d.]/g,'')
+  return gdp
+})
+console.log(monthlyIndicatorsElement);
+
+    monthlyIndicatorsElement.setOption({series:{
+         data:data.value
+        },
+        xAxis: {
+          data:year.value
+        }
+    })}})
   let  monthlyIndicatorsElement = null;
   const monthlyIndicators = ref(null);
 
@@ -26,8 +48,17 @@
 
 // 初始化ECharts实例并设置配置项（这里以折线图为例，但可灵活替换）
   onMounted(async () => {
-    await nextTick(); // 确保DOM已经渲染完成
+    if(store.result){
+year.value=result.value.map((item) => {
+  return item.province||item.year
+})
 
+data.value=result.value.map((item) => {
+  let gdp=item.gdp.replace(/[^\d.]/g,'')
+  return gdp
+})}
+
+    await nextTick(); // 确保DOM已经渲染完成
    monthlyIndicatorsElement = echarts.init(monthlyIndicators.value);
    
   //  Object.defineProperty(document.getElementById('monthlyIndicators'),'clientWidth',{get:function(){return 500;}})
@@ -35,7 +66,7 @@
   //   monthlyIndicatorsElement = echarts.init(document.getElementById('monthlyIndicators'))
    const option = {
     legend: {
-      data: ['计划', '实际'],
+      data: [ 'GDP'],
       icon: 'circle', // 设置图例图标为圆形
       left: 'left', // 将图例定位到左侧
       top: 'top', // 将图例定位到顶部
@@ -49,13 +80,18 @@
     },
     xAxis: {
       type: 'category',
-      data: month.value,
+      data: year.value,
       axisTick: {
         alignWithLabel: true,
       },
       axisLine: {
         show: false, // 不显示横坐标轴线
+
       },
+      axisLabel: {
+              interval: 0,
+              rotate: 40,
+            },
    
     },
     yAxis: {
@@ -64,7 +100,7 @@
     },
     series: [
       {
-        name: '实际',
+        name: 'GDP',
         data: data.value,
         type: 'bar',
         stack: 'total', // 添加堆积效果
@@ -78,31 +114,16 @@
           ]),
         },
       },
-      {
-        name: '计划',
-        data: [320, 132, 101, 134, 90, 230, 210, 320, 132, 101, 134, 90],
-        type: 'bar',
-        stack: 'total', // 添加堆积效果
-        barWidth: '30%', // 调整柱子宽度
-        itemStyle: {
-          borderRadius: [5, 5, 0, 0], // 只有顶部圆角
-          color: '#ebf2ff', // 设置柱子颜色
-        },
-      },
     ],
   };
   monthlyIndicatorsElement.setOption(option);
   monthlyIndicatorsElement.resize()
-  window.addEventListener('resize', () => {  // 窗口大小变化后，重绘图
-    monthlyIndicatorsElement.resize()
-  })
 
   });
   
   // 销毁ECharts实例
   onUnmounted(() => {
     if ( monthlyIndicatorsElement != null &&  monthlyIndicatorsElement.dispose) {
-      window.removeEventListener('resize', monthlyIndicatorsElement.resize)
         monthlyIndicatorsElement.dispose();
     }
   });

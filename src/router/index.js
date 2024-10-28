@@ -1,6 +1,7 @@
 
 import {createRouter,createWebHashHistory} from "vue-router";
 import config from '../conster/index'
+
 //制定路由规则
 const routes=[
     {
@@ -28,7 +29,7 @@ router.beforeEach((to, from, next) => {
 		if (to.name == "login") {
 			next();
 		} else {
-			router.push('login')
+			router.push('/login')
 		}
 	} else {
 		next();

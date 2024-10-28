@@ -3,14 +3,27 @@
 </template>
 
 <script setup>
-import { onMounted, ref,onUnmounted, nextTick} from "vue";
+import { onMounted, ref,onUnmounted, nextTick, watch} from "vue";
 import * as echarts from 'echarts';
+import { useAllDataStore } from '@/stores';
+//接受页面传参
+ const store=useAllDataStore()
+ const result=ref(store.result)
 const businessTrends = ref(null);
 let  businessTrendsElement = null;
-const name=ref(['1月', '2月', '3月', '4月', '5月', '6月', '7月','8月'])
+const year=ref(['1月', '2月', '3月', '4月', '5月', '6月', '7月','8月'])
 const data=ref([620, 132, 701, 234, 890, 430, 120,300])
 // 绘制折线图
 onMounted(async () => {
+  if(store.result){
+year.value=result.value.map((item) => {
+  return item.province||item.year
+})
+
+data.value=result.value.map((item) => {
+  let gdp=item.gdp.replace(/[^\d.]/g,'')
+  return gdp
+})}
     await nextTick(); //
  const businessTrendsElement = echarts.init(businessTrends.value);
   const option = {
@@ -27,13 +40,17 @@ onMounted(async () => {
     xAxis: {
       type: 'category',
       boundaryGap: false,
-      data: name.value, // 示例数据
+      data: year.value, // 示例数据
       axisLine: {
         show: false, // 不显示横坐标轴线
       },
       axisTick: {
         show: false, // 不显示刻度线
       },
+      axisLabel: {
+              interval: 0,
+              rotate: 40,
+            },
     },
     yAxis: {
       type: 'value',
@@ -43,7 +60,7 @@ onMounted(async () => {
     },
     series: [
       {
-        name: '销售额',
+        name: 'GDP',
         type: 'line',
         data: data.value, // 示例数据，模拟起伏更大
         smooth: true, // 折线平滑
@@ -69,14 +86,30 @@ onMounted(async () => {
   };
   businessTrendsElement.setOption(option);
    businessTrendsElement.resize()
-  window.addEventListener('resize', () => {  // 窗口大小变化后，重绘图
-     businessTrendsElement.resize()
+   watch(() => store.result, (newValue) => {
+  result.value = newValue
+  year.value = result.value.map((item) => {
+    return item.province || item.year
   })
+
+  data.value = result.value.map((item) => {
+    let gdp = item.gdp.replace(/[^\d.]/g, '')
+    return gdp
+  })
+  businessTrendsElement.setOption({
+    series: [{
+      data: data.value
+    }],
+    xAxis: {
+      data: year.value
+    }
+  })
+}
+)
 }
 )
 onUnmounted(() => {
     if ( businessTrendsElement!= null && businessTrendsElement.dispose) {
-      window.removeEventListener('resize', businessTrendsElement.resize)
         businessTrendsElement.dispose();
     }
   });

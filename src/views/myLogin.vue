@@ -18,24 +18,34 @@
 import { ElMessage } from "element-plus";
 import { reactive } from "vue"
 import { useRouter } from "vue-router"
-// import api from '@/utils/api/course'
+import api from '@/utils/api/course'
+import { useAllDataStore } from "@/stores";
 const router = useRouter()
+const store=useAllDataStore()
 const loginForm = reactive({
     username: '',
     password: '',
 });
 const handleLogin=() => {
-    // if(loginForm.username&&loginForm.password){
-    //     api.Login(loginForm).then((data) => {
-    //         localStorage.setItem('token',data.token)
-    //     })
     if(loginForm.username&&loginForm.password){
-    localStorage.setItem('token',1)
-        router.push('/')
+        api.Login({username:loginForm.username,
+            password:loginForm.password
+        }).then(({data}) => {
+           store.token=data.token
+           localStorage.setItem('token',store.token)
+            router.push('/')
         ElMessage({
             message: '成功登录',
             type: 'success',
         })
+        }).catch((err) => {
+            ElMessage({
+            message: err,
+            type: 'warning',
+            })
+        })
+   
+    router.push('/')
     }else{
         ElMessage({
             message: '账户密码不能为空',

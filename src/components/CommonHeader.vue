@@ -46,13 +46,15 @@ import conster from "@/conster"
 import { computed } from "vue"
 import { useRouter } from "vue-router"
 import {useAllDataStore} from '@/stores'
+// import api from '@/utils/api/course'
 const store=useAllDataStore()
 const menuList=computed(() => conster.menuList)
 const notChildren = computed(() => menuList.value.filter(item => !item.children))
 const hasChildren = computed(() => menuList.value.filter(item => item.children))
 const router = useRouter()
+
 const handleMenu = (item) => {
-  if(item.name=='find'){
+  if(item.name=='find'|item.name=='compare'){
     store.find=true
   }else{store.find=false
   }
@@ -61,6 +63,7 @@ const handleMenu = (item) => {
 }
 const handleLoginOut=() => {
   localStorage.removeItem('token')
+  localStorage.removeItem('allData')
   location.reload()
 }
 </script>
@@ -71,7 +74,7 @@ const handleLoginOut=() => {
     justify-content: space-between;
     align-items: center;
     height: 7vh;
-    width:80%;
+    width:90%;
     margin: auto;
     background-color: #04345c;
     opacity: 0.6;
